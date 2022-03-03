@@ -1,0 +1,4 @@
+#01 - escutar webhook em localhost
+(cli do stripe isntalada): stripe listen --forward-to localhost:3000/api/webhooks
+
+simulated Card: 4242 4242 4242 4242
