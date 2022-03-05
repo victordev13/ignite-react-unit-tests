@@ -8,7 +8,6 @@ import { SubscribeButton } from '.';
 import { useRouter } from 'next/router';
 
 jest.mock('next-auth/client');
-
 jest.mock('next/router');
 
 describe('SubscribeButton component', () => {
@@ -65,6 +64,6 @@ describe('SubscribeButton component', () => {
 
     fireEvent.click(subscribeButton);
 
-    expect(signIn).toHaveBeenCalledWith('/posts');
+    expect(pushMocked).toHaveBeenCalledWith('/posts');
   });
 });
