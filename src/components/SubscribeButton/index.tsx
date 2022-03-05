@@ -4,11 +4,7 @@ import { api } from '../../services/api';
 import { getStripeJs } from '../../services/stripe-browser';
 import { useRouter } from 'next/dist/client/router';
 
-interface SubscribeButtonProps {
-  priceId: string;
-}
-
-export function SubscribeButton({ priceId }: SubscribeButtonProps) {
+export function SubscribeButton() {
   const [session] = useSession();
   const router = useRouter();
 
@@ -35,10 +31,9 @@ export function SubscribeButton({ priceId }: SubscribeButtonProps) {
   }
   return (
     <button
-      type='button'
+      type="button"
       className={styles.subscribeButton}
-      onClick={() => handleSubscribeButton()}
-    >
+      onClick={() => handleSubscribeButton()}>
       Subscribe now
     </button>
   );
