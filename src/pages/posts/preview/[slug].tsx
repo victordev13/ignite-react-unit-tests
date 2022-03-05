@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useSession } from 'next-auth/client';
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import { RichText } from 'prismic-dom';
@@ -17,7 +17,9 @@ interface PostPreviewProps {
   };
 }
 
-export default function PostPreview({ post }: PostPreviewProps) {
+export default function PostPreview({
+  post,
+}: PostPreviewProps) {
   const [session] = useSession();
   const router = useRouter();
 
@@ -38,12 +40,13 @@ export default function PostPreview({ post }: PostPreviewProps) {
           <h1>{post.title}</h1>
           <time>{post.updatedAt}</time>
           <div
-            dangerouslySetInnerHTML={{ __html: post.content }}
-            className={`${styles.postContent} ${styles.previewContent}`}
-          ></div>
+            dangerouslySetInnerHTML={{
+              __html: post.content,
+            }}
+            className={`${styles.postContent} ${styles.previewContent}`}></div>
           <div className={styles.continueReading}>
             Wanna continue reading?
-            <Link href='/'>
+            <Link href="/">
               <a>Subscribe now🔥</a>
             </Link>
           </div>
@@ -60,21 +63,32 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({
+  params,
+}) => {
   const { slug } = params;
 
   const prismic = getPrismicClient();
 
-  const response = await prismic.getByUID('post', String(slug), {});
+  const response = await prismic.getByUID(
+    'post',
+    String(slug),
+    {}
+  );
 
   const post = {
     slug,
     title: RichText.asText(response.data.title),
-    content: RichText.asHtml(response.data.content.splice(0, 3)),
-    updatedAt: new Date(response.last_publication_date).toLocaleDateString(
-      'pt-BR',
-      { day: '2-digit', month: 'long', year: 'numeric' }
+    content: RichText.asHtml(
+      response.data.content.splice(0, 3)
     ),
+    updatedAt: new Date(
+      response.last_publication_date
+    ).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    }),
   };
 
   return {

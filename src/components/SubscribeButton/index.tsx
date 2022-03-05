@@ -2,7 +2,7 @@ import { signIn, useSession } from 'next-auth/client';
 import styles from './styles.module.scss';
 import { api } from '../../services/api';
 import { getStripeJs } from '../../services/stripe-browser';
-import { useRouter } from 'next/dist/client/router';
+import { useRouter } from 'next/router';
 
 export function SubscribeButton() {
   const [session] = useSession();
